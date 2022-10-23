@@ -5,7 +5,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from controllers.utils import StoreNotFoundError, handle_error, StoreExistsError
-from db import stores, db
+from db import db
 from models import StoreModel
 from schemas import PlainStoreSchema
 
@@ -39,11 +39,6 @@ class Store(MethodView):
 
 @blp.route("/store")
 class StoreList(MethodView):
-
-    @staticmethod
-    def _check_if_store_exists(store_name: str):
-        if store_name in list(map(lambda x: x["name"], stores.values())):
-            raise StoreExistsError
 
     @blp.response(200, PlainStoreSchema(many=True))
     def get(self):
