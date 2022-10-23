@@ -7,20 +7,13 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from controllers.utils import ItemNotFoundError, handle_error
 from models import ItemModel
 from schemas import ItemSchema, ItemUpdateSchema
-from db import items, db
+from db import db
 
 blp = Blueprint("Items", "items", description="Operations on items")
 
 
 @blp.route("/item/<string:item_id>")
 class Item(MethodView):
-
-    @staticmethod
-    def _get_item(item_id: str) -> Dict[str, Any]:
-        item = items.get(item_id, None)
-        if item is None:
-            raise ItemNotFoundError
-        return item
 
     @blp.response(200, ItemSchema)
     def get(self, item_id: int):
@@ -64,8 +57,8 @@ class ItemList(MethodView):
             db.session.add(item)
             db.session.commit()
         except IntegrityError:
-            abort(400, message="A store with that name already exists.")
+            abort(400, message=f"A store with that name already exists: {item.name}.")
         except SQLAlchemyError:
-            abort(500, message="An error ocurred while inserting Item.")
+            abort(500, message=f"An error ocurred while inserting Item: {item_data}.")
 
         return item

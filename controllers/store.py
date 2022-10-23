@@ -16,20 +16,13 @@ blp = Blueprint("Stores", "stores", description="Operations on stores")
 @blp.route("/store/<string:store_id>")
 class Store(MethodView):
 
-    @staticmethod
-    def _get_store(store_id: str) -> Dict[str, Any]:
-        store = stores.get(store_id, None)
-        if store is None:
-            raise StoreNotFoundError
-        return store
-
     @blp.response(200, PlainStoreSchema)
-    @handle_error
+    #@handle_error
     def get(self, store_id: int):
         store = StoreModel.get_or_404(store_id)
         return store
 
-    @handle_error
+    #@handle_error
     def delete(self, store_id: str):
         store = StoreModel.get_or_404(store_id)
         db.session.delete(store)
@@ -52,8 +45,8 @@ class StoreList(MethodView):
             db.session.add(store)
             db.session.commit()
         except IntegrityError:
-            abort(400, message="A store with that name already exists.")
+            abort(400, message=f"A store with that name already exists: {store.name}.")
         except SQLAlchemyError:
-            abort(500, message="An error ocurred while inserting Item.")
+            abort(500, message=f"An error ocurred while inserting Store: {store_data}.")
 
         return store
