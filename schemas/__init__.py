@@ -1,2 +1,2 @@
 from schemas.schemas import ItemSchema, ItemUpdateSchema, \
-    PlainStoreSchema, TagSchema, TagAndItemSchema
+    PlainStoreSchema, TagSchema, TagAndItemSchema, UserSchema

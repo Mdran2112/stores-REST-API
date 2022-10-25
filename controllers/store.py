@@ -1,6 +1,7 @@
 from typing import Dict, Any
 
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
@@ -22,6 +23,7 @@ class Store(MethodView):
         store = StoreModel.query.get_or_404(store_id)
         return store
 
+    @jwt_required()
     #@handle_error
     def delete(self, store_id: str):
         store = StoreModel.query.get_or_404(store_id)
@@ -37,6 +39,7 @@ class StoreList(MethodView):
     def get(self):
         return StoreModel.query.all()
 
+    @jwt_required()
     @blp.arguments(PlainStoreSchema)
     @blp.response(201, PlainStoreSchema)
     def post(self, store_data: Dict[str, Any]):
