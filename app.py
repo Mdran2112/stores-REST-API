@@ -5,10 +5,8 @@ from flask import Flask
 from flask_smorest import Api
 
 from db import db
-import models
 
-from controllers.item import blp as item_blueprint
-from controllers.store import blp as store_blueprint
+from controllers import item_blueprint, store_blueprint, tag_blueprint
 
 
 def create_app(db_url: Optional[str] = None):
@@ -33,6 +31,7 @@ def create_app(db_url: Optional[str] = None):
 
     api.register_blueprint(item_blueprint)
     api.register_blueprint(store_blueprint)
+    api.register_blueprint(tag_blueprint)
     return app
 
 

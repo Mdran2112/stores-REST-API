@@ -19,12 +19,12 @@ class Store(MethodView):
     @blp.response(200, PlainStoreSchema)
     #@handle_error
     def get(self, store_id: int):
-        store = StoreModel.get_or_404(store_id)
+        store = StoreModel.query.get_or_404(store_id)
         return store
 
     #@handle_error
     def delete(self, store_id: str):
-        store = StoreModel.get_or_404(store_id)
+        store = StoreModel.query.get_or_404(store_id)
         db.session.delete(store)
         db.session.commit()
         return {"message": f"store {store_id} deleted."}
