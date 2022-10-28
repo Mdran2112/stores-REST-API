@@ -5,6 +5,7 @@ from flask import Flask, jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from dotenv import load_dotenv
 from db import db
 
 from controllers import item_blueprint, store_blueprint, tag_blueprint, user_blueprint
@@ -13,6 +14,7 @@ from blocklist import BLOCKLIST
 
 def create_app(db_url: Optional[str] = None):
     app = Flask(__name__)
+    load_dotenv()
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
