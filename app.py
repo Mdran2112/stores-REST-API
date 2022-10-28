@@ -4,6 +4,7 @@ from typing import Optional
 from flask import Flask, jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 from db import db
 
 from controllers import item_blueprint, store_blueprint, tag_blueprint, user_blueprint
@@ -24,7 +25,7 @@ def create_app(db_url: Optional[str] = None):
     app.config["SQLALCHEMY_TRACK_NOTIFICATIONS"] = False
 
     db.init_app(app)  # connect Flask app with SQLAlchemy
-
+    migrate = Migrate(app, db) # for DB migrations
     api = Api(app)
 
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "martin")
