@@ -32,6 +32,7 @@ class ItemSchema(PlainItemSchema):
     store_id = fields.Int(required=True, load_only=True)
     store = fields.Nested(PlainStoreSchema(), dump_only=True)
     tags = fields.List(fields.Nested(PlainTagSchema()), dump_only=True)
+    description = fields.Str(required=True)
 
 
 class TagSchema(PlainTagSchema):

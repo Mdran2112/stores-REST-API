@@ -3,9 +3,9 @@ from typing import Dict, Any
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint, abort
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from sqlalchemy.exc import SQLAlchemyError
 
-from controllers.utils import StoreNotFoundError, handle_error, StoreExistsError
+from controllers.utils import handle_error
 from db import db
 from models import StoreModel, TagModel, ItemModel
 from schemas import TagSchema, TagAndItemSchema
@@ -43,6 +43,7 @@ class TagsInStore(MethodView):
 class LinkTagsToItem(MethodView):
     @jwt_required()
     @blp.response(201, TagSchema)
+    @handle_error
     def post(self, item_id: str, tag_id: str):
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel.query.get_or_404(tag_id)
@@ -58,7 +59,7 @@ class LinkTagsToItem(MethodView):
         return tag
 
     @jwt_required()
-    # @blp.response(200, TagAndItemSchema)
+    @handle_error
     def delete(self, item_id: str, tag_id: str):
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel.query.get_or_404(tag_id)
@@ -78,6 +79,7 @@ class LinkTagsToItem(MethodView):
 class Tags(MethodView):
 
     @blp.response(200, TagSchema)
+    @handle_error
     def get(self, tag_id: str):
         tag = TagModel.query.get_or_404(tag_id)
         return tag
@@ -89,6 +91,7 @@ class Tags(MethodView):
     @blp.alt_response(404, description="Tag not found.")
     @blp.alt_response(400, description="Returned if the tag is assigned to one or more items. In this case"
                                        ", the tag is not deleted.")
+    @handle_error
     def delete(self, tag_id: str):
         tag = TagModel.query.get_or_404(tag_id)
         if not tag.items:

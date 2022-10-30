@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+    mysql_db:
+        container_name: mysql_db
+        image: mysql:latest
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ./mysql:/var/lib/mysql
+        networks:
+            - app-tier 
+
+    items-store-api:
+        container_name: items-store-api
+        image: items-store-api:latest
+        ports:
+            - 80:80
+        environment:
+            - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+            - DATABASE_URL=${DATABASE_URL}
+
+        depends_on:
+            - mysql_db
+        networks:
+            - app-tier        
+
+networks:
+  app-tier:
+    driver: bridge

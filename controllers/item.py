@@ -5,7 +5,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from flask_jwt_extended import jwt_required, get_jwt
 
-from controllers.utils import ItemNotFoundError, handle_error
+from controllers.utils import handle_error, admin_request
 from models import ItemModel
 from schemas import ItemSchema, ItemUpdateSchema
 from db import db
@@ -22,11 +22,8 @@ class Item(MethodView):
         return item
 
     @jwt_required()
+    @admin_request
     def delete(self, item_id: int):
-        jwt = get_jwt()
-        if not jwt.get("is_admin", False):
-            abort(401, message="Admin privilege required.")
-
         item = ItemModel.query.get_or_404(item_id)
         db.session.delete(item)
         db.session.commit()
@@ -35,6 +32,7 @@ class Item(MethodView):
     @jwt_required()
     @blp.arguments(ItemUpdateSchema)
     @blp.response(200, ItemSchema)
+    @handle_error
     def put(self, item_data: Dict[str, Any], item_id: str):
         item = ItemModel.query.get(item_id)
         if item:
@@ -52,13 +50,13 @@ class Item(MethodView):
 @blp.route("/item")
 class ItemList(MethodView):
     @blp.response(200, ItemSchema(many=True))
+    @handle_error
     def get(self):
         return ItemModel.query.all()
 
     @jwt_required(fresh=True)
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
-    #@handle_error
     def post(self, item_data: Dict[str, Any]):
         item = ItemModel(**item_data)
         try:

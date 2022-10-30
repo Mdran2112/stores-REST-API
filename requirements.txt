@@ -3,9 +3,11 @@ flask-smorest
 python-dotenv
 marshmallow
 sqlalchemy
+pymysql
 flask-sqlalchemy
 flask-jwt-extended
 passlib
 flask-migrate
 gunicorn
 psycopg2
+cryptography

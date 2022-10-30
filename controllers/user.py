@@ -2,12 +2,12 @@ from typing import Dict, Any
 
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, \
     jwt_required, get_jwt
 
 from blocklist import BLOCKLIST
+from controllers.utils import handle_error, admin_request
 from db import db
 from models import UserModel
 from schemas import UserSchema
@@ -49,6 +49,7 @@ class UserLogin(MethodView):
 @blp.route("/refresh")
 class TokenRefresh(MethodView):
     @jwt_required(refresh=True)
+    @handle_error
     def post(self):
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)
@@ -56,9 +57,11 @@ class TokenRefresh(MethodView):
         BLOCKLIST.add(jti)
         return {"access_token": new_token}
 
+
 @blp.route("/logout")
 class UserLogout(MethodView):
     @jwt_required()
+    @handle_error
     def post(self):
         jti = get_jwt()["jti"]
         BLOCKLIST.add(jti)
@@ -72,9 +75,10 @@ class User(MethodView):
         user = UserModel.query.get_or_404(user_id)
         return user
 
+    @jwt_required()
+    @admin_request
     def delete(self, user_id: int):
         user = UserModel.query.get_or_404(user_id)
         db.session.delete(user)
         db.session.commit()
         return {"message": "User deleted."}, 200
-
