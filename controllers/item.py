@@ -63,7 +63,7 @@ class ItemList(MethodView):
             db.session.add(item)
             db.session.commit()
         except IntegrityError:
-            abort(400, message=f"A store with that name already exists: {item.name}.")
+            abort(400, message=f"An item with that name already exists: {item.name}.")
         except SQLAlchemyError:
             abort(500, message=f"An error ocurred while inserting Item: {item_data}.")
 
