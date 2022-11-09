@@ -43,7 +43,6 @@ class TagsInStore(MethodView):
 class LinkTagsToItem(MethodView):
     @jwt_required()
     @blp.response(201, TagSchema)
-    @handle_error
     def post(self, item_id: str, tag_id: str):
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel.query.get_or_404(tag_id)
@@ -59,7 +58,6 @@ class LinkTagsToItem(MethodView):
         return tag
 
     @jwt_required()
-    @handle_error
     def delete(self, item_id: str, tag_id: str):
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel.query.get_or_404(tag_id)
@@ -75,11 +73,18 @@ class LinkTagsToItem(MethodView):
         return {"message": f"Item {item_id} removed from tag {tag_id}"}
 
 
+@blp.route("/tag")
+class AllTags(MethodView):
+    @blp.response(200, TagSchema(many=True))
+    @handle_error
+    def get(self):
+        return TagModel.query.all()
+
+
 @blp.route("/tag/<string:tag_id>")
 class Tags(MethodView):
 
     @blp.response(200, TagSchema)
-    @handle_error
     def get(self, tag_id: str):
         tag = TagModel.query.get_or_404(tag_id)
         return tag
@@ -91,7 +96,6 @@ class Tags(MethodView):
     @blp.alt_response(404, description="Tag not found.")
     @blp.alt_response(400, description="Returned if the tag is assigned to one or more items. In this case"
                                        ", the tag is not deleted.")
-    @handle_error
     def delete(self, tag_id: str):
         tag = TagModel.query.get_or_404(tag_id)
         if not tag.items:
@@ -99,4 +103,4 @@ class Tags(MethodView):
             db.session.commit()
             return {"message": f"tag {tag_id} deleted."}
         abort(400, message="Could not delete tag. Make sure that tag is not associated with any items,"
-                           "the try again!")
+                           " then try again!")

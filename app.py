@@ -57,7 +57,7 @@ def create_app(db_url: Optional[str] = None):
 
     @jwt.additional_claims_loader
     def add_claims_to_jwt(identity):
-        # TODO Look in the database and see wether the user is an admin
+        # TODO Look in the database and see if the user is an admin
         if identity == 1:
             return {"is_admin": True}
         return {"is_admin": False}
