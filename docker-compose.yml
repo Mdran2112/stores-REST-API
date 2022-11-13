@@ -20,7 +20,7 @@ services:
         container_name: items-store-api
         image: items-store-api:latest
         ports:
-            - 80:80
+            - 5000:5000
         environment:
             - JWT_SECRET_KEY=${JWT_SECRET_KEY}
             - DATABASE_URL=${DATABASE_URL}
