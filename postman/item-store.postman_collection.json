@@ -1,0 +1,302 @@
+{
+	"variables": [],
+	"info": {
+		"name": "item-store",
+		"_postman_id": "708a86e9-ac19-e1b7-fdc5-6bf1a6d74482",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"request": {
+				"url": "{{host}}/user/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"url": "{{host}}/user/2",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"url": "{{host}}/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"\",\n    \"username\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"url": "{{host}}/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"\",\n    \"username\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"url": "{{host}}/logout",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "stores",
+			"request": {
+				"url": "{{host}}/store",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "store",
+			"request": {
+				"url": "{{host}}/store",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"name\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "item",
+			"request": {
+				"url": "{{host}}/item",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "item",
+			"request": {
+				"url": "{{host}}/item",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"\",\n  \"price\": 1,\n  \"store_id\": \"\",\n  \"description\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "item",
+			"request": {
+				"url": "{{host}}/item/15",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "tag",
+			"request": {
+				"url": "{{host}}/tag/4",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "tags",
+			"request": {
+				"url": "{{host}}/tag",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "tag",
+			"request": {
+				"url": "{{host}}/tag/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "tag in store",
+			"request": {
+				"url": "{{host}}/store/3/tag",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "tag in store",
+			"request": {
+				"url": "{{host}}/store/3/tag",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "tag to item",
+			"request": {
+				"url": "{{host}}/item/5/tag/2",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "item from tag",
+			"request": {
+				"url": "{{host}}/item/5/tag/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
