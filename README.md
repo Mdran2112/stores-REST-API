@@ -1,6 +1,6 @@
 # Stores REST API
 This is an example of a REST API for creating and interacting with a relational 
-database of items/products and stores.
+database of items/products and stores. The api was developed with Python and Flask.
 
 ### Build & deploy
 
